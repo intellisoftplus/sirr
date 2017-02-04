@@ -74,10 +74,22 @@ WSGI_APPLICATION = 'sirr.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
+'''
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+}
+'''
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'HOST': 'ec2-54-75-239-190.eu-west-1.compute.amazonaws.com',
+        'NAME': 'd4498a7tlecogd',
+        'PASSWORD': '59f58b76c91e81befb9022d3e0964be8069521acaed9c6acdf286de8eb0c83da',
+        'PORT': '5432',
+        'USER': 'fgtqxwjtjvjwap',
     }
 }
 
