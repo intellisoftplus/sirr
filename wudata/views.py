@@ -1,7 +1,6 @@
 import urllib2
 import urllib
 import json
-import requests
 
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
@@ -41,9 +40,3 @@ def index(request):
 
 
     f3d.close
-
-
-@csrf_exempt
-def sms(request):
-    twiml = '<Response><Message>Hello from sirr</Message></Response>'
-    return HttpResponse(twiml, content_type='text/xml')
