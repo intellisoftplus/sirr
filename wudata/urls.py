@@ -18,6 +18,4 @@ from . import views
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),
-    # Here we add our Twilio URLs
-    # url(r'^ring/$', views.rimf, name='ring'),
 ]

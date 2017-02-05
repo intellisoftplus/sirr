@@ -17,6 +17,5 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^$', include('wudata.urls')),
-    url(r'^wudata/', include('wudata.urls')),
     url(r'^admin/', include(admin.site.urls)),
 ]
