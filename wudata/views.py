@@ -1,6 +1,7 @@
 import urllib2
 import urllib
 import json
+import requests
 
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
@@ -40,3 +41,4 @@ def index(request):
 
 
     f3d.close
+
