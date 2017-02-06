@@ -26,7 +26,7 @@ def index(request):
     #Request from sms
     dsms = "Monday"
 
-    f3d = urllib2.urlopen('http://api.wunderground.com/api/c38818ab53c0f129/forecast10day/q/KE/Nandi_Hills.json')
+    f3d = urllib2.urlopen('http://api.wunderground.com/api/c38818ab53c0f129/forecast/q/KE/Nandi_Hills.json')
     json_string = f3d.read()
     data = json.loads(json_string)
 
@@ -34,11 +34,53 @@ def index(request):
         # return HttpResponse(day['date']['weekday'])
         d = day['date']['weekday']
         r = day['date']['weekday'] + " " + "Condition " + " " +  day['conditions'] + " " +  " Temp Low" + " " +day['low']['celsius'] + " " + "Temp High " + " " + day['high']['celsius'] + " " + "Av Humidity " +  " " +str(day['avehumidity'])
+        return HttpResponse(r)
 
-        if d == dsms:
 
-            return HttpResponse (r)
+        # if d == dsms:
+
+    r = requests.post('https://intellisoft-sms.herokuapp.com/api/alerts', data={
+        'phonenumber': '+254790331936',
+        'message': 'Your text message.'
+    })
+
+    return HttpResponse (r)
 
 
     f3d.close
+
+def weather(request):
+
+    f3d = urllib2.urlopen('http://api.wunderground.com/api/c38818ab53c0f129/forecast/q/KE/Nandi_Hills.json')
+    json_string = f3d.read()
+    data = json.loads(json_string)
+
+    # Rain
+    # Chance of Rain
+    # Clear
+    # Partly Cloudy
+    for day in data['forecast']['simpleforecast']['forecastday']:
+
+        condition = str(day['conditions'])
+
+        if condition == "Rain" or "Chance of Rain":
+             will_rain = True
+
+             r = requests.post('https://intellisoft-sms.herokuapp.com/api/alerts/weather', data={
+                 'will_rain': will_rain
+             })
+             return HttpResponse (r)
+    will_rain = False
+    r = requests.post('https://intellisoft-sms.herokuapp.com/api/alerts/weather', data={
+        'will_rain': will_rain
+    })
+    return HttpResponse (r)
+
+
+def soil(request):
+
+    r = requests.post('https://intellisoft-sms.herokuapp.com/api/alerts/soil', data={
+        'value': 20,
+        'tag': 'low'
+    })
 
