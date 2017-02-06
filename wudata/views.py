@@ -80,7 +80,8 @@ def weather(request):
 def soil(request):
 
     r = requests.post('https://intellisoft-sms.herokuapp.com/api/alerts/soil', data={
-        'value': 20,
-        'tag': 'low'
+        'value': 66,
+        'tag': 'high'
     })
+    return HttpResponse(r)
 
