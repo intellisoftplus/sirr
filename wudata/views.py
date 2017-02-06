@@ -64,13 +64,13 @@ def weather(request):
         condition = str(day['conditions'])
 
         if condition == "Rain" or "Chance of Rain":
-             will_rain = True
+             will_rain = 1
 
              r = requests.post('https://intellisoft-sms.herokuapp.com/api/alerts/weather', data={
                  'will_rain': will_rain
              })
              return HttpResponse (r)
-    will_rain = False
+    will_rain = 0
     r = requests.post('https://intellisoft-sms.herokuapp.com/api/alerts/weather', data={
         'will_rain': will_rain
     })
