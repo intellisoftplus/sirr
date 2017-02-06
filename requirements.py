@@ -3,10 +3,12 @@ decorator==4.0.11
 Django==1.10.5
 djangorestframework==3.5.3
 ez-setup==0.9
+FiPy==3.1.3
 gunicorn==19.6.0
 imageio==2.1.2
 moviepy==0.2.2.12
 music21==3.1.0
+numpy==1.12.0
 olefile==0.44
 packaging==16.8
 Pillow==4.0.0
@@ -15,3 +17,4 @@ pyparsing==2.1.10
 requests==2.13.0
 six==1.10.0
 tqdm==4.11.2
+unroll==0.1.0
