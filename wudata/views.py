@@ -49,7 +49,10 @@ def index(request):
 
     f3d.close
 
-def weather(request):
+def weather(request,query):
+
+    #query is the phone number to which the message is to be sent.
+    phone = request.GET.get('query', query)
 
     f3d = urllib2.urlopen('http://api.wunderground.com/api/c38818ab53c0f129/forecast/q/KE/Nandi_Hills.json')
     json_string = f3d.read()
@@ -84,4 +87,62 @@ def soil(request):
         'tag': 'high'
     })
     return HttpResponse(r)
+
+def test(request,query):
+    query = request.GET.get('query', query)
+
+    return HttpResponse(query)
+
+
+
+
+import ibmiotf.device
+import json
+import time
+import signal
+from time import sleep
+import random
+import sys
+options = {
+
+	"org": "vy8sg5",
+	"type": "intellisoft-sample",
+	"id": "intellisoftsample1",
+	"auth-method": "token",
+	"auth-token": "testdevice"
+}
+
+def myCommandCallback(cmd):
+	print('inside command callback')
+	print cmd
+### Let's try and make our exits graceful ###
+def signal_handler(signal, frame):
+
+	print('You pressed Ctrl+C!')
+	signal.signal(signal.SIGINT, signal_handler)
+
+### Main routine starts here ###
+
+def myCommandCallback(cmd):
+	print('inside command callback')
+	print cmd
+
+def main(requests):
+	client = ibmiotf.device.Client(options)
+	client.connect()
+	client.commandCallback = myCommandCallback
+
+	while True:
+            t = time.time()
+            json_data = {}
+            json_data["Time"] = t
+            json_data["Sensor1"] = random.randint(1,1023)
+            myPayload = json_data
+            client.publishEvent("status","json", myPayload)
+            return HttpResponse(random.randint(1,1023))
+
+
+if __name__ == "__main__":
+
+   	main()
 

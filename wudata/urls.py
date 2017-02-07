@@ -18,6 +18,8 @@ from . import views
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),
-    url(r'^weather/', views.weather, name='weather'),
-    url(r'^soil/', views.soil, name='soil'),
+    url(r'^api/weather/(?P<query>\w+)/', views.weather, name='weather'),
+    url(r'^api/soil/', views.soil, name='soil'),
+    url(r'^api/test/(?P<query>\w+)/', views.test, name='test'),
+    url(r'^api/watson/', views.main, name='watson'),
 ]
