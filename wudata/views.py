@@ -72,7 +72,8 @@ def index(request):
 def weather(request,query):
 
     #query is the phone number to which the message is to be sent.
-    phone = request.GET.get('query', query)
+    phone = request.POST.get('query', query)
+    return HttpResponse(phone)
 
     f3d = urllib2.urlopen('http://api.wunderground.com/api/c38818ab53c0f129/forecast/q/KE/Nandi_Hills.json')
     json_string = f3d.read()
@@ -110,18 +111,20 @@ def soil(request):
 
     return HttpResponse(r)
 
+
 def test(request,query):
     m = ""
-    query = request.GET.get('query', query)
+    # query = request.GET.get('query', query)
     r = main(m)
-
+    # r = requests.get('https://github.com/timeline.json')
+    # payload = {'phonenumber': '+254790331936'}
+    # r = requests.get("http://127.0.0.1:8000/wudata/api/weather/+254790331936/", params=payload)
+    # send = requests.post('http://127.0.0.1:8000/wudata/api/weather/+254790331936/')
     return HttpResponse(r)
 
 def jsonz(request):
-        data = {'foo': 'bar', 'hello': 'world'}
+        data = {'mm': 'mm', 'time': 'time'}
         return HttpResponse(json.dumps(data), content_type='application/json')
-
-
 
 
 def myCommandCallback(cmd):
