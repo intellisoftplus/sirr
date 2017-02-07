@@ -73,7 +73,6 @@ def weather(request,query):
 
     #query is the phone number to which the message is to be sent.
     phone = request.POST.get('query', query)
-    return HttpResponse(phone)
 
     f3d = urllib2.urlopen('http://api.wunderground.com/api/c38818ab53c0f129/forecast/q/KE/Nandi_Hills.json')
     json_string = f3d.read()
