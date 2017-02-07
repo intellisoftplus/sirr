@@ -95,7 +95,7 @@ def weather(request,query):
              return HttpResponse (r)
     will_rain = 0
     r = requests.post('https://intellisoft-sms.herokuapp.com/api/alerts/weather', data={
-        'will_rain': will_rain, 'number': phone
+        'will_rain': will_rain, 'phonenumber': phone
     })
     return HttpResponse (r)
 
