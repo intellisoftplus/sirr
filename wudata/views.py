@@ -9,6 +9,26 @@ from django.http import HttpResponse
 from django.template import RequestContext
 from django.views.decorators.csrf import csrf_exempt
 
+
+import ibmiotf.device
+import json
+import time
+import signal
+from time import sleep
+import random
+import sys
+
+
+options = {
+
+	"org": "vy8sg5",
+	"type": "intellisoft-sample",
+	"id": "intellisoftsample1",
+	"auth-method": "token",
+	"auth-token": "testdevice"
+}
+
+
 # Create your views here.
 def index(request):
     # return HttpResponse("Hello, world. You're at the weather data index.")
@@ -75,7 +95,7 @@ def weather(request,query):
              return HttpResponse (r)
     will_rain = 0
     r = requests.post('https://intellisoft-sms.herokuapp.com/api/alerts/weather', data={
-        'will_rain': will_rain
+        'will_rain': will_rain, 'number': phone
     })
     return HttpResponse (r)
 
@@ -86,31 +106,23 @@ def soil(request):
         'value': 66,
         'tag': 'high'
     })
+
+
     return HttpResponse(r)
 
 def test(request,query):
+    m = ""
     query = request.GET.get('query', query)
+    r = main(m)
 
-    return HttpResponse(query)
+    return HttpResponse(r)
+
+def jsonz(request):
+        data = {'foo': 'bar', 'hello': 'world'}
+        return HttpResponse(json.dumps(data), content_type='application/json')
 
 
 
-
-import ibmiotf.device
-import json
-import time
-import signal
-from time import sleep
-import random
-import sys
-options = {
-
-	"org": "vy8sg5",
-	"type": "intellisoft-sample",
-	"id": "intellisoftsample1",
-	"auth-method": "token",
-	"auth-token": "testdevice"
-}
 
 def myCommandCallback(cmd):
 	print('inside command callback')
@@ -127,19 +139,23 @@ def myCommandCallback(cmd):
 	print('inside command callback')
 	print cmd
 
-def main(requests):
+def main(m):
 	client = ibmiotf.device.Client(options)
 	client.connect()
-	client.commandCallback = myCommandCallback
+	# client.commandCallback = myCommandCallback
 
 	while True:
-            t = time.time()
-            json_data = {}
-            json_data["Time"] = t
-            json_data["Sensor1"] = random.randint(1,1023)
-            myPayload = json_data
-            client.publishEvent("status","json", myPayload)
-            return HttpResponse(random.randint(1,1023))
+            try:
+                t = time.time()
+                json_data = {}
+                json_data["Time"] = t
+                json_data["Sensor1"] = random.randint(1,1023)
+                myPayload = json_data
+                client.publishEvent("status","json", myPayload)
+                return random.randint(1,1023)
+
+            except SystemExit:
+                break
 
 
 if __name__ == "__main__":

@@ -25,6 +25,8 @@ SECRET_KEY = '#-23^b40a3i-3zv1l=u8od%p+_d@p55wcx@-(pu7&m5e+&$$=#'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+CSRF_COOKIE_SECURE = False
+
 ALLOWED_HOSTS = ['*']
 
 
