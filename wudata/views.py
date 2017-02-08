@@ -72,8 +72,9 @@ def index(request):
 def weather(request,query):
 
     #query is the phone number to which the message is to be sent.
-    phone = request.POST.get('query', query)
 
+    phone = request.POST.get('query', query)
+    print phone
     f3d = urllib2.urlopen('http://api.wunderground.com/api/c38818ab53c0f129/forecast/q/KE/Nandi_Hills.json')
     json_string = f3d.read()
     data = json.loads(json_string)
@@ -97,6 +98,42 @@ def weather(request,query):
     r = requests.post('https://intellisoft-sms.herokuapp.com/api/alerts/weather', data={
         'will_rain': will_rain, 'phonenumber': phone
     })
+    return HttpResponse (r)
+
+
+def getweather(request):
+
+    #query is the phone number to which the message is to be sent.
+
+    n = urllib2.Request("http://127.0.0.1:8000/wudata/api/jsonz/")
+    opener = urllib2.build_opener()
+    f = opener.open(n)
+    json2 = json.loads(f.read())
+    return HttpResponse(json2)
+
+    f3d = urllib2.urlopen('http://api.wunderground.com/api/c38818ab53c0f129/forecast/q/KE/Nandi_Hills.json')
+    json_string = f3d.read()
+    data = json.loads(json_string)
+
+    # Rain
+    # Chance of Rain
+    # Clear
+    # Partly Cloudy
+    # for day in data['forecast']['simpleforecast']['forecastday']:
+    #
+    #     condition = str(day['conditions'])
+    #
+    #     if condition == "Rain" or "Chance of Rain":
+    #          will_rain = 1
+    #
+    #          r = requests.post('https://intellisoft-sms.herokuapp.com/api/alerts/weather', data={
+    #              'will_rain': will_rain, 'phonenumber': phone
+    #          })
+    #          return HttpResponse (r)
+    # will_rain = 0
+    # r = requests.post('https://intellisoft-sms.herokuapp.com/api/alerts/weather', data={
+    #     'will_rain': will_rain, 'phonenumber': phone
+    # })
     return HttpResponse (r)
 
 
