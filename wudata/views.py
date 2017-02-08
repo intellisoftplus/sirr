@@ -68,7 +68,7 @@ def index(request):
 
 
     f3d.close
-
+@csrf_exempt
 def weather(request,query):
 
     #query is the phone number to which the message is to be sent.
